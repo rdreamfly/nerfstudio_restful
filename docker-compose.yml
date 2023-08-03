@@ -1,0 +1,10 @@
+services:
+  web:
+    build: ./ns_api/
+    command: python app.py
+    ports:
+      - 8080:8080
+  worker:
+    build: . 
+    command: rq worker nerf_queue
+    
