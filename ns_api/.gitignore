@@ -1,0 +1,7 @@
+config.py
+__pycache__
+**/**.json
+**/**.mp4
+.vscode
+ns_api.code-workspace
+settings.json
