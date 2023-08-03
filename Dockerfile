@@ -22,6 +22,11 @@ ENV TZ=Europe/Berlin
 ## CUDA Home, required to find CUDA in some packages.
 ENV CUDA_HOME="/usr/local/cuda"
 
+EXPOSE 8080
+# oss dependencies
+RUN apt-get update && apt-get install -y build-essential libffi-dev libssl-dev
+
+
 # Install required apt packages and clear cache afterwards.
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -162,8 +167,8 @@ RUN cd nerfstudio && \
     cd ..
 
 # Change working directory
-WORKDIR /workspace
+WORKDIR /home/user/nerfstudio
 
-# Install nerfstudio cli auto completion and enter shell if no command was provided.
-CMD ns-install-cli --mode install && /bin/bash
+# Install nerfstudio cli auto completion
+CMD ns-install-cli --mode install
 
