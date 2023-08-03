@@ -6,5 +6,4 @@ services:
       - 8080:8080
   worker:
     build: . 
-    command: rq worker nerf_queue
-    
+    command: python ./ns_api/utils_worker.py -q nerf_queue
