@@ -25,17 +25,6 @@ def download_video_to_dir_from_bucket(slug):
     utils_bucket.download_to_local(key,filename)
     return filename
 def create_nerf(slug):
-<<<<<<< HEAD
-    # 0. Download video from bucket
-    info = {
-        'status':'downloading',
-        'latest_run_status':'downloading',
-        'latest_run_current_stage':'downloading',
-    }
-    utils_db.update_capture(slug,**info) # 下载中
-    download_video_to_dir_from_bucket(slug)
-
-=======
     # mkdir
     data_dir = data_parent_dir / f'{slug}'
     video_path = data_dir / f'{slug}.mp4'
@@ -50,7 +39,6 @@ def create_nerf(slug):
         utils_db.update_capture(slug,**info) # 下载中
         download_video_to_dir_from_bucket(slug)
         print('Downloaded')
->>>>>>> e58ba6ade247ab5158b4d662dd927b641f06816e
     # 1. Started processing
     info = {
         'status':'Started',
