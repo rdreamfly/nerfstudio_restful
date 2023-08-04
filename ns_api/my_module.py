@@ -31,16 +31,16 @@ def create_nerf(slug):
     if not video_path.exists():
     # 0. Download video from bucket
         info = {
-            'status':'downloading',
-            'latest_run_status':'downloading',
-            'latest_run_current_stage':'downloading',
+            'status':'Downloading',
+            'latest_run_status':'Downloading',
+            'latest_run_current_stage':'Downloading',
         }
         utils_db.update_capture(slug,**info) # 下载中
         download_video_to_dir_from_bucket(slug)
-
+        print('Downloaded')
     # 1. Started processing
     info = {
-        'status':'Started'
+        'status':'Started',
         'latest_run_status':'Started',
         'latest_run_current_stage': 'Preprocessing',
     }
@@ -70,9 +70,9 @@ def create_nerf(slug):
     subprocess.run(f"ns-export poisson --load-config {config_path} --output-dir {specific_mesh_dir}",shell=True)
 
     # 4. Upload mesh to bucket
-    shutil.make_archive(base_name=job_id, format='zip', base_dir=specific_mesh_dir)
-    filename = specific_mesh_dir / '.zip'
     key = f'{job_id}.zip'
+    shutil.make_archive(base_name=specific_mesh_dir, format='zip', base_dir=specific_mesh_dir)
+    filename = specific_mesh_dir.with_suffix('.zip')
     utils_bucket.upload_to_bucket(key,filename)
     # Update result_url and status
     result_url = utils_bucket.get_sign_url_download(key=key)
@@ -81,9 +81,11 @@ def create_nerf(slug):
         'latest_run_current_stage': 'Finished',
         'latest_run_progress': 100,
         'result_url':result_url,
+        'job_id': ""
     }
     utils_db.update_capture(slug,**info)
     print('job finished')
-    
+    # 5. Delete data directory
+    shutil.rmtree(data_dir)
 if __name__ == "__main__":
     create_nerf(test_slug)

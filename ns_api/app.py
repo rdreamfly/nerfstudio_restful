@@ -109,7 +109,14 @@ class single_Capture(Resource):
     
     # trigger a capture
     def post(self, slug):
+        # 判断是否已经在训练或队列中
+        status = utils_db.get_a_capture(slug)['status']
+        print(status)
+        print(type(status))
+        if status =='Started' or status == 'Enqueued':
+            return f"{slug} is already {status},Triger fail" , 201
 
+            
         if 1:
             # 1. Enqueued job
             info = {
@@ -120,6 +127,7 @@ class single_Capture(Resource):
             }
             utils_db.update_capture(slug, **info)    
             q_nerf = utils_redis.get_queue(queue_name='nerf_queue') # q.name = 'nerf_queue'
+
             # job失败后，直接抛弃，不重试
             job = q_nerf.enqueue(create_nerf, slug,job_timeout='2h',failure_ttl=0, on_failure=utils_db.on_failure)
             job_id = job.get_id()
