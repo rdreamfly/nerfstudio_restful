@@ -55,7 +55,7 @@ def create_nerf(slug):
     }
     utils_db.update_capture(slug,**info)
     subprocess.run(f"ns-train nerfacto --data {data_dir}  --output-dir {output_dir} --pipeline.model.predict-normals True \
-        --max-num-iterations {200} --save-only-latest-checkpoint True --vis tensorboard  ",shell=True,cwd='/nerfstudio_restful')
+        --max-num-iterations {20000} --save-only-latest-checkpoint True --vis tensorboard  ",shell=True,cwd='/nerfstudio_restful')
 
     # 3. Start exporting mesh
     specific_output_dir = cwd / 'outputs' / slug
@@ -79,6 +79,7 @@ def create_nerf(slug):
     result_url = utils_bucket.get_sign_url_download(key=key)
     info = {
         'status':'Finished',
+        'latest_run_status':'Finished',
         'latest_run_current_stage': 'Finished',
         'latest_run_progress': 100,
         'result_url':result_url,
