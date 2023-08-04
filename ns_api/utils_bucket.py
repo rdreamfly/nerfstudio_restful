@@ -54,10 +54,11 @@ if __name__ =='__main__':
     # shutil.make_archive(base_name=specific_mesh_dir, format='zip', base_dir=specific_mesh_dir)
     # import utils_bucket
     key = '2560affd-49a8-4178-87b1-674d39777d47.zip'
-    print(specific_mesh_dir.with_suffix('.zip'))
-    upload_to_bucket(key,filename=specific_mesh_dir.with_suffix('.zip'))
+    # print(specific_mesh_dir.with_suffix('.zip'))
+    # upload_to_bucket(key,filename=specific_mesh_dir.with_suffix('.zip'))
     import os
     import shutil
     data_dir =Path('/nerfstudio_restful/data/nerfstudio/zhangsan-eraLi-110024')
-    # 删除data_dir
-    shutil.rmtree(data_dir)
+    # # 删除data_dir
+    # shutil.rmtree(data_dir)
+    print(str(data_dir))
