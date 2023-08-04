@@ -25,6 +25,17 @@ def download_video_to_dir_from_bucket(slug):
     utils_bucket.download_to_local(key,filename)
     return filename
 def create_nerf(slug):
+<<<<<<< HEAD
+    # 0. Download video from bucket
+    info = {
+        'status':'downloading',
+        'latest_run_status':'downloading',
+        'latest_run_current_stage':'downloading',
+    }
+    utils_db.update_capture(slug,**info) # 下载中
+    download_video_to_dir_from_bucket(slug)
+
+=======
     # mkdir
     data_dir = data_parent_dir / f'{slug}'
     video_path = data_dir / f'{slug}.mp4'
@@ -39,6 +50,7 @@ def create_nerf(slug):
         utils_db.update_capture(slug,**info) # 下载中
         download_video_to_dir_from_bucket(slug)
         print('Downloaded')
+>>>>>>> e58ba6ade247ab5158b4d662dd927b641f06816e
     # 1. Started processing
     info = {
         'status':'Started',
@@ -75,7 +87,7 @@ def create_nerf(slug):
     shutil.make_archive(base_name=str(specific_mesh_dir), format='zip', root_dir=str(specific_mesh_dir)) # shutil里的path要求是str
     filename = specific_mesh_dir.with_suffix('.zip')
     utils_bucket.upload_to_bucket(key,filename)
-    # Update result_url and status
+    # 5. Update result_url and status
     result_url = utils_bucket.get_sign_url_download(key=key)
     info = {
         'status':'Finished',
