@@ -72,7 +72,7 @@ def create_nerf(slug):
 
     # 4. Upload mesh to bucket
     key = f'{job_id}.zip'
-    shutil.make_archive(base_name=str(specific_mesh_dir), format='zip', base_dir=specific_mesh_dir)
+    shutil.make_archive(base_name=job_id, format='zip', root_dir=specific_mesh_dir)
     filename = specific_mesh_dir.with_suffix('.zip')
     utils_bucket.upload_to_bucket(key,filename)
     # Update result_url and status
@@ -114,10 +114,10 @@ def test_create_nerf_with_data(slug):
     os.chdir(data_dir)
     key = f'{job_id}.zip'
     print('zip')
-    shutil.make_archive(base_name=f'{job_id}', format='zip', root_dir=str(specific_mesh_dir))
+    shutil.make_archive(base_name=job_id, format='zip', root_dir=specific_mesh_dir)
 
     # filename = specific_mesh_dir.with_suffix('.zip')
-    filename = key
+    filename = specific_mesh_dir.with_suffix('.zip')
     print('upload')
     utils_bucket.upload_to_bucket(key,filename)
     # 5. Update result_url and status
