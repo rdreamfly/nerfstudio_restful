@@ -5,3 +5,4 @@ __pycache__
 .vscode
 ns_api.code-workspace
 settings.json
+*.zip

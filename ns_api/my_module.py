@@ -59,7 +59,7 @@ def create_nerf(slug):
     utils_db.update_capture(slug, **info)
     subprocess.run(
         f"ns-train nerfacto --data {data_dir}  --output-dir {output_dir} --pipeline.model.predict-normals True \
-        --max-num-iterations {200} --save-only-latest-checkpoint True --vis tensorboard  ",
+        --max-num-iterations {20000} --save-only-latest-checkpoint True --vis tensorboard  ",
         shell=True,
         cwd="/nerfstudio_restful",
     )
@@ -79,13 +79,16 @@ def create_nerf(slug):
 
     # 4. Upload mesh to bucket
     key = f"{job_id}.zip"
-    shutil.make_archive(base_name=job_id, format="zip", root_dir=specific_mesh_dir)
+    shutil.make_archive(
+        base_name=str(specific_mesh_dir), format="zip", root_dir=str(specific_mesh_dir)
+    )  # shutil里的path要求是str
     filename = specific_mesh_dir.with_suffix(".zip")
     utils_bucket.upload_to_bucket(key, filename)
     # 5. Update result_url and status
     result_url = utils_bucket.get_sign_url_download(key=key)
     info = {
         "status": "Finished",
+        "latest_run_status": "Finished",
         "latest_run_current_stage": "Finished",
         "latest_run_progress": 100,
         "result_url": result_url,
