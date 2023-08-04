@@ -23,6 +23,7 @@ def download_video_to_dir_from_bucket(slug):
     utils_bucket.download_to_local(key,filename)
     return filename
 def create_nerf(slug):
+    # 0. Download video from bucket
     info = {
         'status':'downloading',
         'latest_run_status':'downloading',
@@ -66,7 +67,7 @@ def create_nerf(slug):
     filename = specific_mesh_dir / '.zip'
     key = f'{job_id}.zip'
     utils_bucket.upload_to_bucket(key,filename)
-    # Update result_url and status
+    # 5. Update result_url and status
     result_url = utils_bucket.get_sign_url_download(key=key)
     info = {
         'status':'Finished',
