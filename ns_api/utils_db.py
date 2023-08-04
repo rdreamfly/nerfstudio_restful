@@ -221,6 +221,14 @@ def delete_all_captures():
         conn.commit()
     return 0
 
+def on_failure():
+    info={
+        "status":"Failed",
+        "latest_run_status":"Failed",
+        "latest_run_progress":100,
+        "latest_run_current_stage":"Failed",
+        "result_url":""
+    }
 if __name__ == "__main__":
     kwargs = {
         'status':'Started',
