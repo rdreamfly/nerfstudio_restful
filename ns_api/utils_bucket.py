@@ -44,6 +44,7 @@ def upload_to_bucket(key,filename):
     bucket.put_object_from_file(key=key,filename=filename,progress_callback=percentage)
 
 if __name__ =='__main__':
+    
     # 测试filename是否可以是Path ,可以
     filename = Path('D:/Repo/algorithm/ns_api/map.jpg')
     slug = 'map'

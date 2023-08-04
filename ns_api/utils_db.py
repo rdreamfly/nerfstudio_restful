@@ -116,7 +116,8 @@ def get_a_capture(slug):
                 "latest_run_progress":i[7],
                 "latest_run_current_stage":i[8],
                 "source_url":i[9],
-                "result_url":i[10]
+                "result_url":i[10],
+                "job_id":i[11]
             }
         return ret
 
