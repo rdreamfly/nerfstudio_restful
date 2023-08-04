@@ -4,6 +4,9 @@ from pathlib import Path
 import os 
 import sys
 import requests
+import utils_db
+import utils_bucket
+
 
 # 将运行目录更改为tests
 # 从上个目录引用
@@ -11,15 +14,23 @@ os.chdir('D:/Repo/algorithm/ns_api/tests')
 sys.path.append('..')
 import utils_bucket
 
-
+usecase = {
+    'url':'http://localhost:8080/capture',
+    'url_single':'',
+    'root_dir':'',
+    'data_parent_dir':'',
+    'data_dir':'',
+    'slug':'test-test-123456',
+    'source_url':'',
+    'result_url':'',
+    'key':''# key in bucket, the name of file
+}
 cwd = Path('D:/Repo/algorithm/ns_api/')
 base_name = fr'{str(cwd)}\123213412321341242131'
 print(base_name)
 archive = Path(rf'C:\Users\future\Desktop\eraLi')
 root_dir = Path('C:/User/future/Desktop')
 video_path = '../map.jpg'
-
-
 url = 'http://localhost:8080/capture'
 url_single = 'http://localhost:8080/capture/future-test-123456'
 class Test_capture:
@@ -45,3 +56,16 @@ class Test_capture:
         utils_bucket.download_to_local(slug,'test.jpg')
         # 删掉下载的文件
         os.remove('test.jpg')
+
+ 
+class Test_job:
+    def test_download():
+        pass
+    def test_process():
+        pass
+    def test_train():
+        pass
+    def test_export():
+        pass
+    def upload_to_bucket():
+        pass

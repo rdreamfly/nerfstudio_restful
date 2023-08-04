@@ -16,6 +16,8 @@ def get_queue(queue_name):
 if __name__ == '__main__':
     # pass
     # 启用 worker pool
-    subprocess.run(f"rq worker --url redis://default:Gwl001201!@r-bp1xdy045xbzxw1dvzpd.redis.rds.aliyuncs.com:6379/0",shell=True)
-    
+    # subprocess.run(f"rq worker --url redis://default:Gwl001201!@r-bp1xdy045xbzxw1dvzpd.redis.rds.aliyuncs.com:6379/0",shell=True)
+    # rq 清空队列
+    q = rq.Queue(name='nerf_queue',connection=redis)
+    q.empty()
     

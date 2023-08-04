@@ -116,7 +116,8 @@ def get_a_capture(slug):
                 "latest_run_progress":i[7],
                 "latest_run_current_stage":i[8],
                 "source_url":i[9],
-                "result_url":i[10]
+                "result_url":i[10],
+                "job_id":i[11]
             }
         return ret
 
@@ -220,6 +221,14 @@ def delete_all_captures():
         conn.commit()
     return 0
 
+def on_failure():
+    info={
+        "status":"Failed",
+        "latest_run_status":"Failed",
+        "latest_run_progress":100,
+        "latest_run_current_stage":"Failed",
+        "result_url":""
+    }
 if __name__ == "__main__":
     kwargs = {
         'status':'Started',

@@ -20,7 +20,7 @@ import utils_db
 import utils_bucket
 from my_module import create_nerf
 from config import *
-
+import os
 app = Flask(__name__)
 api = Api(app)
 
@@ -109,8 +109,15 @@ class single_Capture(Resource):
     
     # trigger a capture
     def post(self, slug):
+        # 判断是否已经在训练或队列中
+        status = utils_db.get_a_capture(slug)['status']
+        print(status)
+        print(type(status))
+        if status =='Started' or status == 'Enqueued':
+            return f"{slug} is already {status},Triger fail" , 201
 
-        if 0:
+            
+        if 1:
             # 1. Enqueued job
             info = {
                 'status': "Enqueued",
@@ -120,7 +127,9 @@ class single_Capture(Resource):
             }
             utils_db.update_capture(slug, **info)    
             q_nerf = utils_redis.get_queue(queue_name='nerf_queue') # q.name = 'nerf_queue'
-            job = q_nerf.enqueue(create_nerf, slug,job_timeout='2h')
+
+            # job失败后，直接抛弃，不重试
+            job = q_nerf.enqueue(create_nerf, slug,job_timeout='2h',failure_ttl=0, on_failure=utils_db.on_failure)
             job_id = job.get_id()
             update_capture(slug,job_id=job_id)
 
@@ -136,4 +145,5 @@ class single_Capture(Resource):
 api.add_resource(Caputures_Management, "/capture")
 api.add_resource(single_Capture, "/capture/<slug>")
 if __name__ == "__main__":
+    # 工作目录读写权限
     app.run(debug=True,host='0.0.0.0',port=8080)
