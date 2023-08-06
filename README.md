@@ -51,25 +51,6 @@
 </p>
 
 
-- [Quickstart](#quickstart)
-
-# About
-
-_It’s as simple as plug and play with nerfstudio!_
-
-Nerfstudio provides a simple API that allows for a simplified end-to-end process of creating, training, and testing NeRFs.
-The library supports a **more interpretable implementation of NeRFs by modularizing each component.**
-With more modular NeRFs, we hope to create a more user-friendly experience in exploring the technology.
-
-This is a contributor-friendly repo with the goal of building a community where users can more easily build upon each other's contributions.
-Nerfstudio initially launched as an opensource project by Berkeley students in [KAIR lab](https://people.eecs.berkeley.edu/~kanazawa/index.html#kair) at [Berkeley AI Research (BAIR)](https://bair.berkeley.edu/) in October 2022 as a part of a research project ([paper](https://arxiv.org/abs/2302.04264)). It is currently developed by Berkeley students and community contributors.
-
-We are committed to providing learning resources to help you understand the basics of (if you're just getting started), and keep up-to-date with (if you're a seasoned veteran) all things NeRF. As researchers, we know just how hard it is to get onboarded with this next-gen technology. So we're here to help with tutorials, documentation, and more!
-
-Have feature requests? Want to add your brand-spankin'-new NeRF model? Have a new dataset? **We welcome [contributions](https://docs.nerf.studio/en/latest/reference/contributing.html)!** Please do not hesitate to reach out to the nerfstudio team with any questions via [Discord](https://discord.gg/uMbNqcraFc).
-
-We hope nerfstudio enables you to build faster :hammer: learn together :books: and contribute to our NeRF community :sparkling_heart:.
-
 # Quickstart
 
 该项目主要是两个进程，进程1是flask app，监听请求，将训练任务放入redis队列；进程2是worker进程，用于监听队列，当队列有任务，则worker接受并进行处理。
@@ -101,7 +82,8 @@ CUDA 11.7:
 ```bash
 pip install torch==2.0.1+cu117 torchvision==0.15.2+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
 
-conda install -c "nvidia/label/cuda-11.7.1" cuda-toolkit
+conda install -c https://conda.anaconda.org/nvidia/label/cuda-11.7.1 cuda-toolkit
+
 pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
 ```
 
@@ -110,9 +92,33 @@ CUDA 11.8:
 ```bash
 pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 
-conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
+conda install -c https://conda.anaconda.org/nvidia/label/cuda-11.8.0 cuda-toolkit
+
+pip install ninja
+
 pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
 ```
+
+二选一
+
+
+
+FFMPEG（必须）
+
+```shell
+sudo apt upgrade 
+sudo apt install ffmpeg
+```
+
+
+
+Colmap（必须）
+
+`对应主机版本下载linux版、windows版`
+
+[Installation — COLMAP 3.8-dev documentation](https://colmap.github.io/install.html) 
+
+
 
 nerfstudio项目详细的依赖安装文档 [Dependencies](https://github.com/nerfstudio-project/nerfstudio/blob/main/docs/quickstart/installation.md#dependencies)
 
@@ -126,6 +132,8 @@ cd nerfstudio_restful
 pip install --upgrade pip setuptools
 pip install -e .
 ```
+
+ 
 
 
 
