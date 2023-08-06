@@ -92,7 +92,7 @@ CUDA 11.8:
 ```bash
 pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 
-conda install -c https://conda.anaconda.org/nvidia/label/cuda-11.8.0 cuda-toolkit
+conda install -c https://conda.anaconda.org/nvidia/label/cuda-11.8.0 cuda-toolkit  # 很大
 
 pip install ninja
 
@@ -120,9 +120,52 @@ Colmap（必须）
 
 
 
-nerfstudio项目详细的依赖安装文档 [Dependencies](https://github.com/nerfstudio-project/nerfstudio/blob/main/docs/quickstart/installation.md#dependencies)
+```shell
+#linux版本
+
+sudo apt-get install \
+    git \
+    cmake \
+    ninja-build \
+    build-essential \
+    libboost-program-options-dev \
+    libboost-filesystem-dev \
+    libboost-graph-dev \
+    libboost-system-dev \
+    libboost-test-dev \
+    libeigen3-dev \
+    libflann-dev \
+    libfreeimage-dev \
+    libmetis-dev \
+    libgoogle-glog-dev \
+    libgflags-dev \
+    libsqlite3-dev \
+    libglew-dev \
+    qtbase5-dev \
+    libqt5opengl5-dev \
+    libcgal-dev \
+    libceres-dev
+    libgtest-dev
+```
+
+```shell
+git clone https://github.com/colmap/colmap.git
+cd colmap
+git checkout dev
+mkdir build
+cd build
+cmake .. -GNinja -CMAKE_CUDA_ARCHITECTURES= 'all-major'
+ninja
+sudo ninja install
+```
+
+
+
+
 
 ### 下载 nerfstudio_restful项目
+
+nerfstudio项目详细的依赖安装文档 [Dependencies](https://github.com/nerfstudio-project/nerfstudio/blob/main/docs/quickstart/installation.md#dependencies)
 
 安装好依赖后，克隆项目
 
