@@ -20,7 +20,6 @@
     </a>
 </p>
 
-
 <p align="center">
     <!-- pypi-strip -->
     <picture>
@@ -37,7 +36,6 @@
     <img alt="nerfstudio" src="https://docs.nerf.studio/en/latest/_images/logo.png" width="400">
 </p> -->
 
-
 <p align="center"> A collaboration friendly studio for NeRFs </p>
 
 <p align="center">
@@ -51,7 +49,6 @@
         <img alt="colab" src="https://raw.githubusercontent.com/nerfstudio-project/nerfstudio/main/docs/_static/imgs/readme_colab.png" width="150">
     </a>
 </p>
-
 
 
 # Quickstart
@@ -157,7 +154,7 @@ cd colmap
 git checkout dev
 mkdir build
 cd build
-cmake .. -GNinja -CMAKE_CUDA_ARCHITECTURES= 'all-major'
+cmake .. -GNinja -DCMAKE_CUDA_ARCHITECTURES= 'all-major'
 ninja
 sudo ninja install
 ```
@@ -357,14 +354,12 @@ Response中的数据结构
 
 <a href="https://github.com/brentyi/tyro">
 <!-- pypi-strip -->
-
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://brentyi.github.io/tyro/_static/logo-dark.svg" />
 <!-- /pypi-strip -->
     <img alt="tyro logo" src="https://brentyi.github.io/tyro/_static/logo-light.svg" width="150px" />
 <!-- pypi-strip -->
 </picture>
-
 <!-- /pypi-strip -->
 </a>
 
@@ -380,7 +375,6 @@ Response中的数据结构
     <img alt="tyro logo" src="https://user-images.githubusercontent.com/3310961/199084143-0d63eb40-3f35-48d2-a9d5-78d1d60b7d66.png" width="250px" />
 <!-- pypi-strip -->
 </picture>
-
 <!-- /pypi-strip -->
 </a>
 
