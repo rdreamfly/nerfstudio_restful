@@ -20,6 +20,7 @@
     </a>
 </p>
 
+
 <p align="center">
     <!-- pypi-strip -->
     <picture>
@@ -36,6 +37,7 @@
     <img alt="nerfstudio" src="https://docs.nerf.studio/en/latest/_images/logo.png" width="400">
 </p> -->
 
+
 <p align="center"> A collaboration friendly studio for NeRFs </p>
 
 <p align="center">
@@ -51,7 +53,12 @@
 </p>
 
 
+
 # Quickstart
+
+该项目主要目的是为了制作一个后端应用，布置在服务器上，实现通过网络请求，调用三维重建算法，存储重建成果，对重建成果进行增删改查。
+
+该三维重建算法主要是通过一系列图片，合成新视角图片和mesh文件。
 
 该项目主要是两个进程，进程1是flask app，监听请求，将训练任务放入redis队列；进程2是worker进程，用于监听队列，当队列有任务，则worker接受并进行处理。
 
@@ -327,9 +334,45 @@ Response中的数据结构
 
 
 
+# 算法原理
 
 
-# 项目结构
+
+## **前提**
+
+1. 相机位姿信息已知（use sfm algorithm to extract extincs and intincs）。
+2. 场景是静态的。
+3. 照片之间具有稠密特征点（每个特征点都能在多个照片里出现）。
+
+
+
+## 流程
+
+![../../_images/models_nerf-pipeline-light.png](https://github.com/FuturaTino/TyporaImages/raw/main//TyporaImages/models_nerf-pipeline-light.png)
+
+神经辐射场（Neural Radiance Field）算法是一种用神经网络编码的体积化表达（volumetric representation）来存储一个三维场景的方法。它和网格（Mesh） 、点云（Point Cloud） 都不一样。
+
+对神经辐射场中的每个点，都储存着体密度（Density）和颜色信息（RGB Color）。每个点的 体密度和颜色 都需要把该点的位置坐标与方向 经过神经网络前向传播来获得。体密度记录了该点存在的微分似然值（differential likelihood），通俗理解就是该点存在实体的可能性。
+
+
+
+## 体积渲染
+
+![2](https://github.com/FuturaTino/TyporaImages/raw/main//TyporaImages/2.png)
+
+
+
+现在用神经网络表达了整个三维场景，我们需要一个方式去渲染新视角的照片。为了实现这个目的，原文使是模拟在相机位置上投射一条光线到照片的每个像素点，然后使用图形学中的体积渲染（Volume rendering） 来组合（Composite）光线上所有点的颜色，最获取预测像素点的颜色。
+
+看原文体积渲染的公式，这种组合方式很像PS中把多个图层同时垒到一起。
+
+![../../_images/models_nerf-pipeline-sampler-light.png](https://github.com/FuturaTino/TyporaImages/raw/main//TyporaImages/models_nerf-pipeline-sampler-light.png)
+
+上面讲到，要在相机到照片像素点之间的光线上组合所有点，来预测该像素点的颜色。光线是连续的，上面有无限多个点，无法穷尽，所以要进行采样。最简单是进行等距采样（Uniform Sample），用等间隔距离在光线上进行采样，将Points 第一次输入神经网络，将输出的体密度与颜色进行体积渲染，获取一个粗糙的图片和每个点的采样权重。采样权重（Weights）由体密度计算而来，表明了光线上哪些点具有实体的可能性更大。第二次进行概率分布采样（Possibility Distribution Funtion sample），仅仅在权重值大的区域内进行采样，这些区域是最接近实体表面的。所以采样效果更好。 
+
+
+
+# 后端框架
 
 项目主要用到以下组件
 
@@ -342,24 +385,32 @@ Response中的数据结构
 
 
 
-计划以后一个主机运行flask app ，再使用另外一台主机运行worker进程。通过redis实现进程通信。完全解耦后，可以通过扩展主机数量增加处理任务的能力。项目运行原理如下图
+
+
+## 流程图
+
+![ns_train22](https://github.com/FuturaTino/TyporaImages/raw/main//TyporaImages/ns_train22.png)
+
+## Redis作用示意图
 
 ![Flask 集成 Redis Queue 的调用时序图](https://github.com/FuturaTino/TyporaImages/raw/main//images/68747470733a2f2f7465737464726976656e2e696f2f7374617469632f696d616765732f626c6f672f666c61736b2d72712f666c61736b2d72712d666c6f772e706e67)
 
-	## 训练流程图
 
-![ns_train](C:\Users\future\Desktop\ns_train.png)
+
+
 
 # Built On
 
 <a href="https://github.com/brentyi/tyro">
 <!-- pypi-strip -->
+
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://brentyi.github.io/tyro/_static/logo-dark.svg" />
 <!-- /pypi-strip -->
     <img alt="tyro logo" src="https://brentyi.github.io/tyro/_static/logo-light.svg" width="150px" />
 <!-- pypi-strip -->
 </picture>
+
 <!-- /pypi-strip -->
 </a>
 
@@ -375,6 +426,7 @@ Response中的数据结构
     <img alt="tyro logo" src="https://user-images.githubusercontent.com/3310961/199084143-0d63eb40-3f35-48d2-a9d5-78d1d60b7d66.png" width="250px" />
 <!-- pypi-strip -->
 </picture>
+
 <!-- /pypi-strip -->
 </a>
 
@@ -405,5 +457,5 @@ If you use this library or find the documentation useful for your research, plea
 # Contributors
 
 <a href="https://github.com/nerfstudio-project/nerfstudio/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=nerfstudio-project/nerfstudio" />
+  <img src="https://github.com/FuturaTino/TyporaImages/raw/main//TyporaImages/image" />
 </a>
