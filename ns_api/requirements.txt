@@ -7,3 +7,4 @@ rq==1.16.2
 cffi
 cryptography
 oss2 
+pip install viser==0.0.12
