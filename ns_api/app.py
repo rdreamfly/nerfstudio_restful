@@ -21,10 +21,13 @@ import utils_bucket
 from my_module import create_nerf
 from config import *
 import os
+
+from flask_cors import CORS
+
 app = Flask(__name__)
 api = Api(app)
 
-
+CORS(app)  # 允许所有来源的跨域请求
 
 # meta
 parser = reqparse.RequestParser()
