@@ -2,7 +2,7 @@ flask
 flask-restful
 SQLAlchemy==2.0.19
 PyMySQL
-redis
+redis==5.0.3
 rq==1.16.2
 cffi
 cryptography
